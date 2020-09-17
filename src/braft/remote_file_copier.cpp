@@ -65,7 +65,9 @@ int RemoteFileCopier::init(const std::string& uri, FileSystemAdaptor* fs,
                    << " in " << uri;
         return -1;
     }
-    if (_channel.Init(ip_and_port.as_string().c_str(), NULL) != 0) {
+    brpc::ChannelOptions channel_opt;
+    channel_opt.connect_timeout_ms = 2500;
+    if (_channel.Init(ip_and_port.as_string().c_str(), &channel_opt) != 0) {
         LOG(ERROR) << "Fail to init Channel to " << ip_and_port;
         return -1;
     }

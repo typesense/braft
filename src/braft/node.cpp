@@ -1520,6 +1520,7 @@ void NodeImpl::pre_vote(std::unique_lock<raft_mutex_t>* lck) {
         brpc::ChannelOptions options;
         options.connection_type = brpc::CONNECTION_TYPE_SINGLE;
         options.max_retry = 0;
+        options.connect_timeout_ms = _options.election_timeout_ms / 2;
         brpc::Channel channel;
         if (0 != channel.Init(iter->addr, &options)) {
             LOG(WARNING) << "node " << _group_id << ":" << _server_id
@@ -1597,6 +1598,7 @@ void NodeImpl::elect_self(std::unique_lock<raft_mutex_t>* lck) {
         }
         brpc::ChannelOptions options;
         options.connection_type = brpc::CONNECTION_TYPE_SINGLE;
+        options.connect_timeout_ms = _options.election_timeout_ms / 2;
         options.max_retry = 0;
         brpc::Channel channel;
         if (0 != channel.Init(iter->addr, &options)) {
