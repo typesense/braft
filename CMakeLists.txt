@@ -209,11 +209,7 @@ set(CMAKE_CPP_FLAGS "${DEFINE_CLOCK_GETTIME} -DBRPC_WITH_GLOG=${WITH_GLOG_VAL} -
 set(CMAKE_CPP_FLAGS "${CMAKE_CPP_FLAGS} -DBTHREAD_USE_FAST_PTHREAD_MUTEX -D__const__= -D_GNU_SOURCE -DUSE_SYMBOLIZE -DNO_TCMALLOC -D__STDC_FORMAT_MACROS -D__STDC_LIMIT_MACROS -D__STDC_CONSTANT_MACROS -DBRAFT_REVISION=\\\"${BRAFT_REVISION}\\\" -D__STRICT_ANSI__")
 set(CMAKE_CPP_FLAGS "${CMAKE_CPP_FLAGS} ${DEBUG_SYMBOL}")
 
-if(${CMAKE_SYSTEM_PROCESSOR} MATCHES "aarch64")
-    # Graviton2 or later
-    # https://github.com/aws/aws-graviton-getting-started/blob/main/c-c++.md
-    set(CMAKE_CPP_FLAGS "${CMAKE_CPP_FLAGS} -march=armv8.2-a+fp16+rcpc+dotprod+crypto -mtune=neoverse-n1")
-else()
+if(CMAKE_SYSTEM_PROCESSOR MATCHES "(x86)|(X86)|(amd64)|(AMD64)")
     set(CMAKE_CPP_FLAGS "${CMAKE_CPP_FLAGS} -msse4 -msse4.2")
 endif()
 
